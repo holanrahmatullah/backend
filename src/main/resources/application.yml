@@ -10,13 +10,19 @@ micronaut:
 ---
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/healtcare
+    url: jdbc:postgresql://localhost:5432/healthcare
     driverClassName: org.postgresql.Driver
     username: postgres
-    password: 'warouw1945'
+    password: 'virtue909'
 jpa:
   default:
     properties:
       hibernate:
         hbm2ddl:
-          auto: update
+          auto: none
+        show_sql: true
+
+flyway:
+    datasources: 
+        default: 
+            locations: classpath:databasemigrations 

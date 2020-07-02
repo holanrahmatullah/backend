@@ -2,6 +2,7 @@ plugins {
     id "net.ltgt.apt-eclipse" version "0.21"
     id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
+    id "org.flywaydb.flyway" version "6.5.0"
 }
 
 
@@ -44,6 +45,9 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "io.micronaut.test:micronaut-test-junit5"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+
+    
+    implementation("io.micronaut.configuration:micronaut-flyway")
 }
 
 test.classpath += configurations.developmentOnly
@@ -70,3 +74,8 @@ tasks.withType(JavaExec) {
     jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
 }
 
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/healthcare'
+    user = 'postgres'
+    password = 'virtue909'
+}
