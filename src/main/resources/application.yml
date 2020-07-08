@@ -3,7 +3,7 @@ micronaut:
   application:
     name: micro
   server:
-        port: 8082
+        port: 8080
         cors:
             enabled: true
 
@@ -25,4 +25,9 @@ jpa:
 flyway:
     datasources: 
         default: 
-            locations: classpath:databasemigrations 
+            locations: classpath:dbmigrations 
+
+endpoints:
+    flyway:
+        enabled: true 
+        sensitive: false 

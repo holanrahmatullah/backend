@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import io.micronaut.http.MediaType;
-import api.test.model.UserInput;
-import api.test.repository.UserInputInterface;
+import api.test.model.User;
+import api.test.repository.UserInterface;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Delete;
@@ -18,26 +18,26 @@ import io.micronaut.http.annotation.Put;
 import io.micronaut.http.annotation.QueryValue;
 import io.reactivex.annotations.Nullable;
 
-@Controller("/user_input")
-public class UserInputController {
+@Controller("/users")
+public class UserController {
 
-    private UserInputInterface repository;
+    private UserInterface repository;
     private Gson gson;
 
-    UserInputController(UserInputInterface r) {
+    UserController(UserInterface r) {
         this.repository = r;
         this.gson = new Gson();
     }
 
     @Get(produces = MediaType.APPLICATION_JSON)
     public String index(@QueryValue int page, @QueryValue int limit) {
-        List<UserInput> userInput = repository.findAll(page, limit);
+        List<User> user = repository.findAll(page, limit);
         final HashMap<String, Object> data = new HashMap<>();
         try {
             data.put("paga", Math.ceil(repository.size() / limit));
             data.put("status", "ok");
             data.put("message", "Data User");
-            data.put("data", userInput);
+            data.put("data", user);
             return gson.toJson(data);
         } catch (Exception e) {
 
@@ -48,8 +48,8 @@ public class UserInputController {
     }
 
     @Post(consumes = MediaType.APPLICATION_JSON)
-    public String save(@Body UserInput userInput) {
-        return repository.save(userInput);
+    public String save(@Body User user) {
+        return repository.save(user);
     }
 
     @Get("{/id}")
@@ -60,9 +60,9 @@ public class UserInputController {
 
     @Put("{/id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String update(@PathVariable @Nullable final Long id, @Body final UserInput userInput) {
+    public String update(@PathVariable @Nullable final Long id, @Body final User user) {
         final HashMap<String, Object> data = new HashMap<>();
-        if (repository.update(id, userInput.getUser_name(), userInput.getUser_password(), userInput.getUser_logo())) {
+        if (repository.update(id, user.getUsername(), user.getPassword())) {
             data.put("status", "ok");
         } else {
             data.put("status", "fail");
