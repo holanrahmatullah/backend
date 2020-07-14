@@ -15,20 +15,20 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "dokters")
+public class Dokter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "username harus di isi")
-    @Column(name = "username")
-    private String username;
+    @NotNull(message = "Nama Dokter harus di isi")
+    @Column(name = "nama_dokter")
+    private String nama_dokter;
 
-    @NotNull(message = "naration harus di isi")
-    @Column(name = "password")
-    private String password;
+    @NotNull(message = "Keahlian Dokter harus di isi")
+    @Column(name = "keahlian_dokter")
+    private String keahlian_dokter;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,20 +43,20 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNama_dokter() {
+        return nama_dokter;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNama_dokter(String nama_dokter) {
+        this.nama_dokter = nama_dokter;
     }
 
-    public String getPassword() {
-        return password;
+    public String getKeahlian_dokter() {
+        return keahlian_dokter;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setKeahlian_dokter(String keahlian_dokter) {
+        this.keahlian_dokter = keahlian_dokter;
     }
 
     public Date getCreated_on() {
@@ -66,5 +66,4 @@ public class User {
     public void setCreated_on(Date created_on) {
         this.created_on = created_on;
     }
-
 }

@@ -8,33 +8,33 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
-import api.test.model.User;
+import api.test.model.Dokter;
 import io.micronaut.configuration.hibernate.jpa.scope.CurrentSession;
 import io.micronaut.spring.tx.annotation.Transactional;
 
 @Singleton
-public class UserRepository implements UserInterface {
+public class DokterRepository implements DokterInterface {
 
     @PersistenceContext
     private EntityManager manager;
 
-    public UserRepository(@CurrentSession EntityManager entityManager) {
+    public DokterRepository(@CurrentSession EntityManager entityManager) {
         this.manager = entityManager;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> findAll(int page, int limit) {
-        TypedQuery<User> query = manager.createQuery("from User", User.class)
+    public List<Dokter> findAll(int page, int limit) {
+        TypedQuery<Dokter> query = manager.createQuery("from Dokter", Dokter.class)
                 .setFirstResult(page > 1 ? page * limit - limit : 0).setMaxResults(limit);
         return query.getResultList();
     }
 
     @Override
     @Transactional
-    public String save(@NotNull User user) {
+    public String save(@NotNull Dokter dokter) {
         try {
-            manager.persist(user);
+            manager.persist(dokter);
             return "{\"status\":\"ok\"}";
         } catch (Exception e) {
             return "{\"status\":\"fail\", \"message\": \"" + e.getMessage() + "\"}";
@@ -44,24 +44,24 @@ public class UserRepository implements UserInterface {
     @Override
     @Transactional(readOnly = true)
     public Long size() {
-        return manager.createQuery("select count(*) from User", Long.class).getSingleResult();
+        return manager.createQuery("select count(*) from Dokter", Long.class).getSingleResult();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public User findById(@NotNull Long id) {
-        return manager.find(User.class, id);
+    public Dokter findById(@NotNull Long id) {
+        return manager.find(Dokter.class, id);
     }
 
     @Override
     @Transactional
-    public boolean update(@NotNull Long id, String name, String password) {
+    public boolean update(@NotNull Long id, String nama_dokter, String keahlian_dokter) {
         try {
-            User user = manager.find(User.class, id);
-            if (name != null)
-                user.setUsername(name);
-            if (password != null)
-                user.setPassword(password);
+            Dokter dokter = manager.find(Dokter.class, id);
+            if (nama_dokter != null)
+                dokter.setNama_dokter(nama_dokter);
+            if (keahlian_dokter != null)
+                dokter.setKeahlian_dokter(keahlian_dokter);
             return true;
         } catch (Exception e) {
             return false;
@@ -72,12 +72,11 @@ public class UserRepository implements UserInterface {
     @Override
     public boolean destroy(@NotNull Long id) {
         try {
-            User user = manager.find(User.class, id);
-            manager.remove(user);
+            Dokter dokter = manager.find(Dokter.class, id);
+            manager.remove(dokter);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
-
 }
